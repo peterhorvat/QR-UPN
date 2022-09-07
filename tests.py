@@ -148,7 +148,7 @@ class Model_05(unittest.TestCase):
 class Model_06(unittest.TestCase):
 
     def test_checksum(self):
-        ref = 'SI06	15612431-16123-662902'
+        ref = 'SI06	15612431-111111-1111112'
         actual = validate_reference(ref)
         self.assertEqual(actual, True)
 

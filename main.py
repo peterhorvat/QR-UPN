@@ -45,15 +45,16 @@ def control_number(column):
 
 
 def sum_multi(column):
-    print(column)
     ponders = [i for i in range(len([*column]) + 1, 1, -1)]
     return sum([a * b for a, b in zip(map(int, [*column]), ponders)])
 
 
 def model11_checksum(column):
     if isinstance(column, list):
-        result = 11 - (sum([sum_multi(col) for col in column]) % 11)
         last = int(column[-1][-1])
+        column = column
+        column[-1] = column[-1][:-1]
+        result = 11 - (sum([sum_multi(col) for col in column]) % 11)
     else:
         result = 11 - (sum_multi(column[:-1]) % 11)
         last = int(column[-1])
@@ -63,9 +64,8 @@ def model11_checksum(column):
 
 
 def validate_reference(ref):
-    ref = re.sub(r"[\n\t\s]*", "", ref)
+    ref = re.sub(r'[\n\t\s]*', '', ref)
     model_rules = {
-
         '00': {
             'control': '0000',
             'part1': {
@@ -459,7 +459,7 @@ def validate_reference(ref):
     }
     prefix = ref[:2]
     _model = ref[2:4]
-    if re.compile("^(SI|RF)(0[0-9]|1(0|1|2|8|9)|(2|3)(1|8)|4(0|1|8|9)|5(1|5|8)|99)[0-9\-]{0,22}").match(ref) and ref.count('-') <= 2:
+    if re.compile('^(SI|RF)(0[0-9]|1(0|1|2|8|9)|(2|3)(1|8)|4(0|1|8|9)|5(1|5|8)|99)[0-9\-]{0,22}').match(ref) and ref.count('-') <= 2:
         if prefix == 'SI':
             columns = ref.replace(prefix, '').split('-')
             columns[0] = columns[0][2:]
@@ -486,7 +486,8 @@ def validate_reference(ref):
             for inx, col in enumerate(columns):
                 condition = f"{len(col)}{model.get(f'part{inx+1}').get('condition')}"
                 if not eval(condition):
-                    raise ValueError(f'Column length of reference is not valid for column {inx+1}: "{col}" ({condition}).')
+                    # raise ValueError(f'Column length of reference is not valid for column {inx+1}: "{col}" ({condition}).')
+                    return False
 
             # Check model 11 checksum
             single_controls = [i for i, ltr in enumerate(model.get('control')) if ltr == '1']
@@ -494,13 +495,16 @@ def validate_reference(ref):
             for i in single_controls:
                 if i == 3:
                     if not model11_checksum(columns):
-                        return ValueError(f'Control number is not valid')
+                        # raise ValueError(f'Control number is not valid')
+                        return False
                 else:
                     if not model11_checksum(columns[i]):
-                        return ValueError(f'Control number is not valid')
+                        # raise ValueError(f'Control number is not valid')
+                        return False
             if len(combined_controls):
                 if not model11_checksum(columns[combined_controls[0]:combined_controls[1]+1]):
-                    return ValueError(f'Control number is not valid')
+                    # raise ValueError(f'Control number is not valid')
+                    return False
             return True
     return False
 
@@ -509,7 +513,7 @@ def format_reference(ref):
     if validate_reference(ref):
         return [ref[:4], ref[5:]]
     else:
-        raise Exception("Reference is not in a valid format.")
+        raise Exception('Reference is not in a valid format.')
 
 
 def format_price(price, qr=False):
@@ -518,7 +522,7 @@ def format_price(price, qr=False):
             if re.compile("^\d+(\.\d{2})?$").match(price) or isinstance(price, (int, float)):
                 _price = float(price)
                 if qr:
-                    return f"{'0' * (10 - len(str(_price).replace('.', '')))}{int(100 * _price)}"
+                    return f'{"0" * (10 - len(str(_price).replace(".", "")))}{int(100 * _price)}'
                 return f'***{locale.format_string("%.2f", _price, True)}'
         else:
             raise TypeError('Incorrect price format')
