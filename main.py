@@ -1,10 +1,8 @@
 import re
 import datetime
 import locale
-
 import segno
 
-import upnqr
 from PIL import Image, ImageDraw, ImageFont
 from schwifty import IBAN
 
@@ -38,18 +36,38 @@ def format_date(datum):
         raise ValueError('Incorrect data format, should be DD.MM.YYYY')
 
 
+def control_number(column):
+    ponders = [i for i in range(len([*column]) + 1, 1, -1)]
+    result = 11 - (sum([a * b for a, b in zip(map(int, [*column]), ponders)]) % 11)
+    if result == 10:
+        return 0
+    return result
+
+
+def sum_multi(column):
+    print(column)
+    ponders = [i for i in range(len([*column]) + 1, 1, -1)]
+    return sum([a * b for a, b in zip(map(int, [*column]), ponders)])
+
+
+def model11_checksum(column):
+    if isinstance(column, list):
+        result = 11 - (sum([sum_multi(col) for col in column]) % 11)
+        last = int(column[-1][-1])
+    else:
+        result = 11 - (sum_multi(column[:-1]) % 11)
+        last = int(column[-1])
+    if result == 10 or result == 11:
+        result = 0
+    return result == last
+
+
 def validate_reference(ref):
-    general_rules = {
-        'prefix': 4,
-        'max_length': 20,
-        'delimiter_count': 2,
-        'delimiter': '-'
-    }
+    ref = re.sub(r"[\n\t\s]*", "", ref)
     model_rules = {
 
         '00': {
             'control': '0000',
-            'regex': '[0-9]{1,12}-{0,1}[0-9]{0,12}-{0,1}[0-9]{0,12}',
             'part1': {
                 'required': True,
                 'condition': '<=12'
@@ -70,11 +88,11 @@ def validate_reference(ref):
                 'condition': '<=12'
             },
             'part2': {
-                'required': False,
+                'required': True,
                 'condition': '<=12'
             },
             'part3': {
-                'required': False,
+                'required': True,
                 'condition': '<=12'
             }
         },
@@ -236,37 +254,37 @@ def validate_reference(ref):
             },
             'part2': {
                 'required': False,
-                'condition': '=0'
+                'condition': '==0'
             },
             'part3': {
                 'required': False,
-                'condition': '=0'
+                'condition': '==0'
             }
         },
         '18': {
             'control': '1100',
             'part1': {
                 'required': True,
-                'condition': '=5'
+                'condition': '==5'
             },
             'part2': {
                 'required': True,
-                'condition': '=7'
+                'condition': '==7'
             },
             'part3': {
                 'required': False,
-                'condition': '=8'
+                'condition': '==8'
             }
         },
         '19': {
             'control': '1100',
             'part1': {
                 'required': True,
-                'condition': '=8'
+                'condition': '==8'
             },
             'part2': {
                 'required': True,
-                'condition': '=5'
+                'condition': '==5'
             },
             'part3': {
                 'required': False,
@@ -277,7 +295,7 @@ def validate_reference(ref):
             'control': '1000',
             'part1': {
                 'required': True,
-                'condition': '=8'
+                'condition': '==8'
             },
             'part2': {
                 'required': True,
@@ -285,18 +303,18 @@ def validate_reference(ref):
             },
             'part3': {
                 'required': False,
-                'condition': '=0'
+                'condition': '==0'
             }
         },
         '28': {
             'control': '1100',
             'part1': {
                 'required': True,
-                'condition': '=5'
+                'condition': '==5'
             },
             'part2': {
                 'required': True,
-                'condition': '=7'
+                'condition': '==7'
             },
             'part3': {
                 'required': False,
@@ -307,7 +325,7 @@ def validate_reference(ref):
             'control': '1000',
             'part1': {
                 'required': True,
-                'condition': '=8'
+                'condition': '==8'
             },
             'part2': {
                 'required': True,
@@ -315,7 +333,7 @@ def validate_reference(ref):
             },
             'part3': {
                 'required': False,
-                'condition': '=0'
+                'condition': '==0'
             }
         },
         '38': {
@@ -437,19 +455,58 @@ def validate_reference(ref):
                 'required': False,
                 'condition': '<=12'
             }
-        },
-        '99': {
-            'blank': True
         }
     }
-    print(list(model_rules.keys()))
     prefix = ref[:2]
-    model = ref[2:4]
-    print(model_rules.get(model))
+    _model = ref[2:4]
+    if re.compile("^(SI|RF)(0[0-9]|1(0|1|2|8|9)|(2|3)(1|8)|4(0|1|8|9)|5(1|5|8)|99)[0-9\-]{0,22}").match(ref) and ref.count('-') <= 2:
+        if prefix == 'SI':
+            columns = ref.replace(prefix, '').split('-')
+            columns[0] = columns[0][2:]
+            try:
+                columns = list(filter(lambda c: c != '', columns))
+            except ValueError:
+                pass
+            model = model_rules.get(_model)
+
+            # Check model 99
+            if _model == '99':
+                if len(ref) != 4:
+                    # return ValueError(f'Model 99 requires empty reference number')
+                    return False
+                else:
+                    return True
+
+            # Check if enough columns
+            if len(columns) < len([v for k, v in model.items() if 'part' in k and v.get('required')]):
+                # raise ValueError(f'Required columns are not set.')
+                return False
+
+            # Check column lengths P1 - P2 - P3
+            for inx, col in enumerate(columns):
+                condition = f"{len(col)}{model.get(f'part{inx+1}').get('condition')}"
+                if not eval(condition):
+                    raise ValueError(f'Column length of reference is not valid for column {inx+1}: "{col}" ({condition}).')
+
+            # Check model 11 checksum
+            single_controls = [i for i, ltr in enumerate(model.get('control')) if ltr == '1']
+            combined_controls = [i for i, ltr in enumerate(model.get('control')) if ltr == '2']
+            for i in single_controls:
+                if i == 3:
+                    if not model11_checksum(columns):
+                        return ValueError(f'Control number is not valid')
+                else:
+                    if not model11_checksum(columns[i]):
+                        return ValueError(f'Control number is not valid')
+            if len(combined_controls):
+                if not model11_checksum(columns[combined_controls[0]:combined_controls[1]+1]):
+                    return ValueError(f'Control number is not valid')
+            return True
+    return False
+
 
 def format_reference(ref):
-    validate_reference(ref)
-    if re.compile("^(SI|RF){1}(0[0-9]{1}|1(0|1|2|8|9){1}|(2|3){1}(1|8){1}|4(0|1|8|9){1}|5(1|5|8){1}|99){1}[0-9]{0,20}").match(ref):
+    if validate_reference(ref):
         return [ref[:4], ref[5:]]
     else:
         raise Exception("Reference is not in a valid format.")
@@ -461,7 +518,7 @@ def format_price(price, qr=False):
             if re.compile("^\d+(\.\d{2})?$").match(price) or isinstance(price, (int, float)):
                 _price = float(price)
                 if qr:
-                    return f"{'0'*(10-len(str(_price).replace('.','')))}{int(100*_price)}"
+                    return f"{'0' * (10 - len(str(_price).replace('.', '')))}{int(100 * _price)}"
                 return f'***{locale.format_string("%.2f", _price, True)}'
         else:
             raise TypeError('Incorrect price format')
@@ -481,7 +538,6 @@ def qr_upn(p_name, p_address, p_post,
            r_iban, r_ref, r_name, r_address, r_post,
            price, date, purpose_code, purpose, pay_date,
            save_to=None):
-
     img = Image.open('upn_sl.png')
     kwargsL = {'font': get_font(), 'fill': (0, 0, 0)}
     kwargsS = {'font': get_font(size=15), 'fill': (0, 0, 0)}
@@ -549,7 +605,7 @@ def qr_upn(p_name, p_address, p_post,
                 mode='byte',
                 error='M', boost_error=False,
                 encoding='iso-8859-2', eci=True)
-            
+
             qr.to_pil().resize((300, 300)).save('test.png')
             img.paste(qr.to_pil().resize((230, 230)), (427, 51))
         except Exception as e:
@@ -565,20 +621,23 @@ def qr_upn(p_name, p_address, p_post,
 
 
 if __name__ == '__main__':
-
-    data = {
-        'p_name': 'JANEZ NOVAK',
-        'p_address': 'Dunajska ulica 1',
-        'p_post': '1000 Ljubljana',
-        'price': '100',
-        'date': '25.04.2019',
-        'purpose_code': 'RENT',
-        'purpose': 'Plačilo najemnine za marec 2019',
-        'pay_date': '30.04.2019',
-        'r_iban': 'SI56037210001000102',
-        'r_ref': 'SI1914788594-07129-0722',
-        'r_name': 'RentaCar d.o.o.',
-        'r_address': 'Pohorska ulica 22',
-        'r_post': '2000 Maribor'
-    }
-    qr_upn(**data)
+    refs = [
+        'SI00123456789012',
+    ]
+    for r in refs:
+        data = {
+            'p_name': 'JANEZ NOVAK',
+            'p_address': 'Dunajska ulica 1',
+            'p_post': '1000 Ljubljana',
+            'price': '100',
+            'date': '25.04.2019',
+            'purpose_code': 'RENT',
+            'purpose': 'Plačilo najemnine za marec 2019',
+            'pay_date': '30.04.2019',
+            'r_iban': 'SI56037210001000102',
+            'r_ref': f'{r}',
+            'r_name': 'RentaCar d.o.o.',
+            'r_address': 'Pohorska ulica 22',
+            'r_post': '2000 Maribor'
+        }
+        qr_upn(**data)
