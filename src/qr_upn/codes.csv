@@ -1,0 +1,299 @@
+Koda,Opis
+ACCT,Prenos med svojimi rač.v isti banki
+ADCS,Don./sponz./svet./avt./intel. stor.
+ADMG,Administrativne storitve
+ADVA,Plačilo vnaprej/predplačilo
+AEMP,Aktivna politika zaposlovanja
+AGRT,Plačilo v kmetijstvu
+AIRB,Aerotransport
+ALLW,Nadomestila
+ALMY,Preživnina/drugi prejemki
+ANNI,Anuiteta
+ANTS,Storitve anestezije
+AREN,Vnos/vpis terjatev
+B112,Proviz. prodajalca pri vzaj. skladu
+BBSC,Spodbuda za rojstvo otroka
+BCDM,Domači ček na prinositelja
+BCFG,Tuji ček na prinositelja
+BECH,Dodatki za otroke
+BENE,Podpora za brezposelne/invalide
+BEXP,Poslovni izdatki
+BFWD,Terminski posel z vred. papirji
+BKDF,Odloženo črpanje kredita
+BKFE,Nadomestila pri kreditih
+BKFM,Poplačilo kreditne pogodbe
+BKIP,Natečene obresti bančnega kredita
+BKPP,Glavnica bančnega kredita
+BLDM,Vzdrževanje zgradb
+BNET,Neto poravnava obveznic (vnaprej)
+BOCE,Vnos/vpis konverzije v zaledju
+BONU,Bonus plačilo
+BR12,Rabat za prodajal. pri vzaj. skladu
+BUSB,Avtobusni prevoz
+CAFI,Inter. proviz. za upr. skrb. rač.
+CASH,Uprav. den. sred. med bankami
+CBFF,Pokojninski skladi/ varčevanje
+CBFR,Varčevanje za dodatno pokojnino
+CBLK,Kliring svežnja kartic
+CBTV,Račun za kabelsko TV
+CCHD,Nakazilo prejemka/ ZPIZ
+CCIR,Zamenjava valute obresti
+CCPC,Zač. krit. por. prek cen. kl. hiše
+CCPM,Gib. krit. por. prek cen. kl. hiše
+CCRD,Račun za kreditno kartico
+CCSM,Izloč.zač.kr. por. prek c. kl. hiše
+CDBL,Račun za kreditno kartico
+CDCB,Kartična plačila z gotov. vračilom
+CDCD,Kartično izplačilo
+CDCS,Kartično izplačilo s stroški
+CDDP,Odloženo plačilo s kartico
+CDEP,Predč. plač. zaradi kred. dogodka
+CDOC,Originalna odobritev
+CDQC,Navidezna gotovina
+CFDI,Interno zmanjšanje osnov. kapitala
+CFEE,Stroški preklica/odpovedi
+CGDD,Direktna obrem. na podlagi kartice
+CHAR,Dobrodelno plačilo
+CLPR,Glavnica posojila za avto
+CMDT,Plačilo blaga
+COLL,Trajnik/direktna obremenitev
+COMC,Komercialno plačilo
+COMM,Plačilo provizije
+COMP,Nadomestilo za izgubo obresti
+COMT,Kons. plač. tretje osebe za potroš.
+CORT,Poravnava trgovanja
+COST,Stroški
+CPKC,Parkirnina
+CPYR,Avtorska pravica
+CRDS,Zamenjava kreditnega tveganja
+CRPR,Navzkrižni produkti
+CRSP,Kreditna podpora
+CRTL,Kreditna linija
+CSDB,Denarno izplačilo
+CSLP,Plačilo socialnega posojila banki
+CVCF,Storitve/pripomočki za okrevanje
+DBTC,Debetno plačilo
+DCRD,Plačilo z debetno kartico
+DEPT,Depozit
+DERI,Izvedeni finančni instrumenti
+DIVD,Dividenda
+DMEQ,Medicinska oprema
+DNTS,Zobozdravstvene storitve
+DSMT,Obračun pošte/banke na papirju
+DVPM,Dostava proti plačilu
+ECPG,Garantirano spletno plačilo
+ECPR,Vračilo spletnega plačila
+ECPU,Negarantirano spletno plačilo
+EDUC,Izobraževanje
+ELEC,Račun za elektriko
+ENRG,Energetika
+EPAY,e-plačilo
+EQPT,Opcija na delnico
+EQUS,Zam. bodoč. donos. kapitala/delnic
+ESTX,Davek na nepremičnine
+ETUP,Polnitev e-denarnice
+EXPT,Eksotična opcija
+EXTD,Stand. izveden finančni instrument
+FACT,Obnovitev faktoringa
+FAND,Finančna pomoč ob naravnih nesrečah
+FCOL,Provizija
+FCPM,Zamudne obresti in stroški
+FEES,Plačilo pristojbin
+FERB,Trajekt
+FIXI,Naložba s fiksnim donosom
+FNET,Neto por. standard. termin. pogodb
+FORW,Menjava valut z datumom vnaprej
+FREX,Menjava valut
+FUTR,Standardizirane terminske pogodbe
+FWBC,Kritje za trgovca pri termin. posl.
+FWCC,Kritje za stranko pri termin. posl.
+FWLV,Dajatve za tuje delavce
+FWSB,Loč. kritje trgovca pri term. posl.
+FWSC,Loč. kritje stranke pri term. posl.
+FXNT,Neto poravnava menjave valut
+GASB,Račun za plin
+GDDS,Kupoprodaja blaga
+GDSV,Kupoprodaja blaga in storitev
+GFRP,Pravice nezaposl. iz nasl. insolv.
+GOVI,Državno zavarovanje
+GOVT,Plačilo - državni organi
+GSCB,Kupopr. blaga in storitev z gotov.
+GSTX,Davek na blago in storitve
+GVEA,Avstrijski vladni usluž. kategor. A
+GVEB,Avstrijski vladni usluž. kategor. B
+GVEC,Avstrijski vladni usluž. kategor. C
+GVED,Avstrijski vladni usluž. kategor. D
+GWLT,Nakazila po vojnih zakonih
+HEDG,Zaščita pred tveganji
+HLRP,Plačilo stanovanjskega posojila
+HLST,Odplačilo stanovanjskega posoijila
+HLTC,Zdravstvena oskrba na domu
+HLTI,Zdravstveno zavarovanje
+HREC,Dodatek za stanovanje
+HSPC,Bolnišnična oskrba
+HSTX,Stanovanjski davek
+ICCP,Nepreklicno plačilo s kred. kartico
+ICRF,Prva/nujna pomoč
+IDCP,Nepreklicno plač. z debet. kartico
+IHRP,Obrok najemnine po nakupni pogodbi
+INPC,Premija avtomobilskega zavarovanja
+INPR,Povrnitev zavarovalne premije
+INSC,Zavarovalni zahtevek
+INSM,Obrok nakupa
+INSU,Zavarovalna premija
+INTC,Interno plačilo
+INTE,Obresti
+INTX,Davek na dobiček
+INVS,Naložbe & Vrednostni papirji
+IPAY,Takojšnje plačilo
+IPCA,Preklic takojšnjega plačila
+IPDO,Takojšnje plačilo za donacije
+IPEA,Tak. plač./e-trgovina brez nasl.pl.
+IPEC,Tak. plač./e-trgovina z nasl. plač.
+IPEW,Takojšnje plačilo v e-trgovini
+IPPS,Takojšnje plačilo na POS terminalu
+IPRT,Vračilo takojšnjega plačila
+IPU2,Takojšnje plačilo na avtomatu z 2FA
+IPUW,Takoj. plač. na avtomatu brez 2FA
+IVPT,Plačilo računa
+LBIN,Medseb. porav. znes. pri posojanju
+LBRI,Delovno zavarovanje
+LCOL,Ločeno kritje za posojilo
+LFEE,Provizija pri posojanju vred. papir
+LICF,Licenčna provizija/licenčnina
+LIFI,Življenjsko zavarovanje
+LIMA,Upravljanje likvidnosti
+LMEQ,Sprem. tržne vred. spos. delnic
+LMFI,Sprem. tržne vred. spos. obveznic
+LMRK,Sprem. tržne vred. spos. vred. pap.
+LOAN,Posojilo
+LOAR,Odplačilo posojila
+LREB,Rabat ob posojilu vredn. papirjev
+LREV,Prenos prihodkov stranki od agenta
+LSFL,Zahtevek posojilnega agenta
+LTCF,Dolgotrajna zdravstvena oskrba
+MAFC,Prisp v sklad za zdravstveno pomoč
+MARF,Povrnitev stroškov zdrav. pomoči
+MARG,Dnevna marža za derivative
+MBSB,Zavarovanje MBS agenta
+MBSC,Zavarovanje stranke pri MBS poslih
+MCDM,Večvalutni domači ček
+MCFG,Večvalutni tuji ček
+MDCS,Zdravstvene storitve
+MGCC,Marža terminskega posla
+MGSC,Zavarovanje marže terminskega posla
+MP2B,Mobilna plačila P2B
+MP2P,Mobilna plačila P2P
+MSVC,Več vrst storitev
+MTUP,Polnjenje mobi računa
+NETT,Neto izravnava
+NITX,Davek na čisti dobiček
+NOWS,Ni opredeljeno drugod
+NWCH,Omrežnina
+NWCM,Mrežna povezava
+OCCC,Jamstvo stranke za opcije
+OCDM,Domači ček na ime
+OCFG,Tuji ček na ime
+OFEE,Otvoritvena provizija
+OPBC,Zavarovanje OTC opcij brez vračila
+OPCC,Zavarovanje OTC opcij z vračilom
+OPSB,Loč. zavar. OTC opcij brez vračila
+OPSC,Loč. zavar. OTC opcij z vračilom
+OPTN,Zavarovanje opcij v mednar. menjavi
+OTCD,OTC izvedeni finančni instrumenti
+OTHR,Drugo
+OTLC,Drugi računi - telekomunikacije
+PADD,Vnaprej odobrena obremenitev
+PAYR,Plačilna lista
+PEFC,Prispevek za pokojninski sklad
+PENO,Sklepi izvršbe razen sod. za prež.
+PENS,Pokojnina
+PHON,Račun za telefon
+POPE,Vnos/vpis prodajnega mesta
+PPTI,Zavarovanje lastnine
+PRCP,Plačilo izdatkov
+PRME,Plemenite kovine
+PTSP,Plačilni pogoji
+PTXP,Davek na premoženje
+RCKE,Vnos/vpis ponovne predložitve čeka
+RCPT,Izdano potrdilo
+RDTX,Dajatev v cestnem prometu
+REBT,Vračilo rabata
+REFU,Vračilo denarnih sredstev
+RELG,Najemnina/zakup
+RENT,Najemnina
+REOD,Odplačilo prekoračitve na računu
+REPO,REPO pogodba
+RHBS,Dodatek za rehabilitacijo
+RIMB,Vračilo pomotoma nak. transakcije
+RINP,Obročna plačila
+RLWY,Železnica
+ROYA,Tantieme
+RPBC,Zav. trgovca za krovno REPO pogodbo
+RPCC,Zav. stranke za krovno REPO pogodbo
+RPNT,Dvostranska poravnava REPO obresti
+RPSB,Loč. zav. trgov. za krov. REPO pog.
+RPSC,Loč. zav. stran. za krov. REPO pog.
+RRBN,Verižna poravnava/cesija
+RRCT,Vračilo plačila
+RVPM,Prevzem proti plačilu
+RVPO,Obratni REPO posel
+SALA,Plače
+SAVG,Varčevanje
+SBSC,Prod.vred.pap.s povr.nak./obratno
+SCIE,Menjava obr. stopnje v tuji valuti
+SCIR,Menjava obrestne stopnje
+SCRP,Tveganja vrednostnih papirjev
+SCVE,Kupoprodaja storitev
+SECU,Vrednostni papirji
+SEPI,Interni nakup vrednostnih papirjev
+SERV,Stroški storitev
+SHBC,Osn. zav. trg. pri prod. na kratko
+SHCC,Osn. zav. str.. pri prod. na kratko
+SHSL,Prodaja na kratko
+SLEB,Zav. posoje in izposoje vred. papir
+SLOA,Listninjeno posojilo
+SLPI,Vnaprej izpolnjen nalog
+SPLT,Deljena plačila
+SPSP,Skupni poračun plač in pokojnin
+SSBE,Socialna podpora
+STDY,Študij
+SUBS,Naročnina
+SUPP,Plačilo dobaviteljem
+SWBC,Kritje trg. pri obr.zam./term. pos.
+SWCC,Kritje str. pri obr.zam./ter.pos.
+SWFP,Končno plačilo obrestne zamenjave
+SWPP,Delno plačilo obrestne zamenjave
+SWPT,Opcija za obrestno zamenjavo
+SWRS,Sprem. opcije za obrestno zamenjavo
+SWSB,Zav. trg. za raz. pri men.obr. mere
+SWSC,Zav. str. za raz. pri men.obr. mere
+SWUF,Predplačilo obrestne zamenjave
+TAXR,Vračilo davka
+TAXS,Davek
+TBAN,Neto poravnava trgov. s TBA posli
+TBAS,Napovedan posel (TBA)
+TBBC,Zavarovanje trgovca za TBA posel
+TBCC,Zavarovanje stranke za TBA posel
+TBIL,Račun za telekomunikacije
+TCSC,Stroški storitev mestnega sveta
+TELI,Plačilo prek telefona
+TLRF,Proviz. za prodaj. vzajem. sklada
+TLRR,Rabat za prodajalca vzajem. sklada
+TPMG,TMPG zahtevek
+TPRI,Obresti tripartitne REPO pogodbe
+TPRP,Poravnava tripartitne REPO pogodbe
+TRAD,Trgovske storitve
+TRCP,Zakladniški produkt
+TREA,Zakladniško plačilo
+TRFD,Skrbniški sklad
+TRNC,Delno predizpolnjen obrazec
+TRPT,Cestnine
+TRVC,Potovalni ček
+UBIL,Povezane komunalne storitve
+UNIT,Vplačilo v investicijski sklad
+VATX,Davek na dodano vrednost
+VIEW,Oskrba vida
+WEBI,Internetno iniciirana transakcija
+WHLD,Davek po odbitku
+WTER,Račun za vodo/vodarina
