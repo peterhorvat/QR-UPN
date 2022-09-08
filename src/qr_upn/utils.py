@@ -14,6 +14,16 @@ locale.setlocale(locale.LC_ALL, 'sl_SI')
 DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
+def check_name(name):
+    if not name.endswitht('.png') or not name.endswitht('.jpg') or not name.endswitht('.jpeg'):
+        return f"{name}.png"
+    return name
+
+
+def clean_str(s):
+    return re.sub(r'[\n\t\s]*', '', s)
+
+
 def get_font(style=os.path.join(DIR_PATH, 'courbd.ttf'), size=19):
     return ImageFont.truetype(style, size)
 
@@ -63,6 +73,7 @@ def model11_checksum(columns):
 
 
 def SI_model_check(ref):
+    ref = clean_str(ref)
     columns = ref.split('-')
     _model = columns[0][2:4]
     columns[0] = columns[0][4:]
@@ -116,6 +127,7 @@ def SI_model_check(ref):
 
 
 def RF_model_check(ref):
+    ref = clean_str(ref)
     checksum = ref[2:4]
     _ref = ref[4:]
     chars = [c for c in string.ascii_uppercase]
@@ -128,7 +140,7 @@ def RF_model_check(ref):
 
 
 def validate_reference(ref):
-    ref = re.sub(r'[\n\t\s]*', '', ref)
+    ref = clean_str(ref)
     # General check if prefix, length and number of '-' is correct
     if re.compile('^(SI(0[0-9]|1(0|1|2|8|9)|(2|3)(1|8)|4(0|1|8|9)|5(1|5|8)|99)[0-9\-]{0,22}|RF[0-9]{2}[a-zA-Z0-9]{0,21})').match(ref) and ref.count('-') <= 2:
         if ref[:2] == 'SI':
@@ -139,7 +151,7 @@ def validate_reference(ref):
 
 
 def format_reference(ref):
-    ref = re.sub(r'[\n\t\s]*', '', ref)
+    ref = clean_str(ref)
     if validate_reference(ref):
         return [ref[:4], ref[4:]]
     else:
@@ -172,10 +184,10 @@ def format_code(code):
         raise Exception(repr(e))
 
 
-def qr_upn(p_name, p_address, p_post,
-           r_iban, r_ref, r_name, r_address, r_post,
-           price, date, purpose_code, purpose, pay_date,
-           save_to=None, show=False):
+def gen_qr_upn(p_name, p_address, p_post,
+               r_iban, r_ref, r_name, r_address, r_post,
+               price, date, purpose_code, purpose, pay_date,
+               save_to=None, save_qr=None, show=False):
     img = Image.open(os.path.join(DIR_PATH, 'upn_sl.png'))
     kwargsL = {'font': get_font(), 'fill': (0, 0, 0)}
     kwargsS = {'font': get_font(size=15), 'fill': (0, 0, 0)}
@@ -243,17 +255,16 @@ def qr_upn(p_name, p_address, p_post,
                 version=15,
                 mode='byte',
                 error='M', boost_error=False,
-                encoding='iso-8859-2', eci=True)
-            # qr.to_pil().resize((300, 300)).save(f'test_{_r_ref[0]}.png')
-            img.paste(qr.to_pil().resize((230, 230)), (427, 51))
+                encoding='iso-8859-2', eci=True).to_pil().resize((230, 230))
+            if save_qr:
+                qr.save(check_name(save_qr))
+            img.paste(qr, (427, 51))
+            if save_to:
+                img.save(check_name(save_to))
+            if show:
+                img.show()
         except Exception as e:
             raise Exception(repr(e))
-
-        if save_to:
-            img.save(save_to)
-            # img.save(f'{r_name}_{r_ref[1]}.png')
-        if show:
-            img.show()
         return img
     except Exception as e:
         raise repr(e)
