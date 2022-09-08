@@ -13,7 +13,7 @@ from .rules import model_rules
 locale.setlocale(locale.LC_ALL, 'sl_SI')
 DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 
-
+# MISC
 def check_name(name):
     if not name.endswitht('.png') or not name.endswitht('.jpg') or not name.endswitht('.jpeg'):
         return f"{name}.png"
@@ -28,6 +28,7 @@ def get_font(style=os.path.join(DIR_PATH, 'courbd.ttf'), size=19):
     return ImageFont.truetype(style, size)
 
 
+# FORMATERS
 def format_length(field, field_name='Field', min_length=0, max_length=33):
     if min_length <= len(field) > max_length:
         raise ValueError(f'{field_name} length must be more than {min_length} characters.')
@@ -51,6 +52,41 @@ def format_date(datum):
         raise ValueError('Incorrect data format, should be DD.MM.YYYY')
 
 
+def format_reference(ref):
+    ref = clean_str(ref)
+    if validate_reference(ref):
+        return [ref[:4], ref[4:]]
+    else:
+        raise Exception('Reference is not in a valid format.')
+
+
+def format_price(price, qr=False):
+    if int(price) <= pow(10, 9) - 1:
+        if isinstance(price, str):
+            if re.compile("^\d+(\.\d{2})?$").match(price) or isinstance(price, (int, float)):
+                _price = float(price)
+                if qr:
+                    return f'{"0" * (10 - len(str(_price).replace(".", "")))}{int(100 * _price)}'
+                return f'***{locale.format_string("%.2f", _price, True)}'
+        else:
+            raise TypeError('Incorrect price format')
+    else:
+        raise ValueError('Number is to large, maximum allowed size is 10^9 - 1')
+
+
+def format_code(code):
+    try:
+        valid_codes = read_csv(os.path.join(DIR_PATH, 'codes.csv')).get('Koda').tolist()
+        format_length(code, field_name='Purpose code', min_length=4, max_length=4)
+        u_code = code.upper()
+        if u_code in valid_codes:
+            return u_code
+        raise ValueError('Purpose code is not valid.')
+    except Exception as e:
+        raise Exception(repr(e))
+
+
+# REFERENCE VALIDATION
 def control_number(column):
     ponders = [i for i in range(len([*column]) + 1, 1, -1)]
     result = 11 - (sum([a * b for a, b in zip(map(int, [*column]), ponders)]) % 11)
@@ -64,6 +100,7 @@ def sum_multi(column):
     return sum([a * b for a, b in zip(map(int, [*column]), ponders)])
 
 
+# MODEL 11 CHECKSUM CALCULATION
 def model11_checksum(columns):
     last = int(columns[-1])
     result = 11 - (sum_multi(columns[:-1]) % 11)
@@ -72,6 +109,7 @@ def model11_checksum(columns):
     return result == last
 
 
+# SI MODEL CHECKSUM
 def SI_model_check(ref):
     ref = clean_str(ref)
     columns = ref.split('-')
@@ -126,6 +164,7 @@ def SI_model_check(ref):
     return True
 
 
+# RF MODEL CHECKSUM
 def RF_model_check(ref):
     ref = clean_str(ref)
     checksum = ref[2:4]
@@ -139,6 +178,7 @@ def RF_model_check(ref):
     return checksum == result
 
 
+# CHECK REFERENCE
 def validate_reference(ref):
     ref = clean_str(ref)
     # General check if prefix, length and number of '-' is correct
@@ -150,40 +190,7 @@ def validate_reference(ref):
     return False
 
 
-def format_reference(ref):
-    ref = clean_str(ref)
-    if validate_reference(ref):
-        return [ref[:4], ref[4:]]
-    else:
-        raise Exception('Reference is not in a valid format.')
-
-
-def format_price(price, qr=False):
-    if int(price) <= pow(10, 9) - 1:
-        if isinstance(price, str):
-            if re.compile("^\d+(\.\d{2})?$").match(price) or isinstance(price, (int, float)):
-                _price = float(price)
-                if qr:
-                    return f'{"0" * (10 - len(str(_price).replace(".", "")))}{int(100 * _price)}'
-                return f'***{locale.format_string("%.2f", _price, True)}'
-        else:
-            raise TypeError('Incorrect price format')
-    else:
-        raise ValueError('Number is to large, maximum allowed size is 10^9 - 1')
-
-
-def format_code(code):
-    try:
-        valid_codes = read_csv(os.path.join(DIR_PATH, 'codes.csv')).get('Koda').tolist()
-        format_length(code, field_name='Purpose code', min_length=4, max_length=4)
-        u_code = code.upper()
-        if u_code in valid_codes:
-            return u_code
-        raise ValueError('Purpose code is not valid.')
-    except Exception as e:
-        raise Exception(repr(e))
-
-
+# QR AND QR-UPN GENERATOR
 def gen_qr_upn(p_name, p_address, p_post,
                r_iban, r_ref, r_name, r_address, r_post,
                price, date, purpose_code, purpose, pay_date,
