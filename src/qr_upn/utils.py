@@ -256,13 +256,12 @@ def gen_qr_upn(p_name, p_address, p_post,
                 mode='byte',
                 error='M', boost_error=False,
                 encoding='iso-8859-2', eci=True).to_pil().resize((230, 230))
-            if save_qr:
-                qr.save(check_name(save_qr))
+            if save_qr: qr.save(check_name(save_qr))
+
             img.paste(qr, (427, 51))
-            if save_to:
-                img.save(check_name(save_to))
-            if show:
-                img.show()
+
+            if save_to: img.save(check_name(save_to))
+            if show: img.show()
         except Exception as e:
             raise Exception(repr(e))
         return img
