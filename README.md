@@ -11,7 +11,7 @@ Feel free to address any issues or improvements.
 ## Installation
 
 ```
-pip install qr-upn==1.0.0
+pip install qr-upn==1.1.0
 ```
 
 ## Functions:
