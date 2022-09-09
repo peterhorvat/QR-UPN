@@ -1,0 +1,36 @@
+[build-system]
+requires = [
+    'hatchling',
+    'iso3166==2.1.1',
+    'numpy==1.23.2',
+    'pandas==1.4.4',
+    'Pillow==9.2.0',
+    'pycountry==22.3.5',
+    'python-dateutil==2.8.2',
+    'pytz==2022.2.1',
+    'schwifty==2022.7.1',
+    'segno==1.5.2',
+    'segno-pil==1.0.0',
+    'six==1.16.0'
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "qr_upn"
+version = "1.0.0"
+authors = [
+  { name="Peter Horvat", email="peter.horvat85@gmail.com" },
+]
+description = "A small package which will generate a QR UPN."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.9.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/peterhorvat/QR-UPN"
+"Bug Tracker" = "https://github.com/peterhorvat/QR-UPN/issues"
