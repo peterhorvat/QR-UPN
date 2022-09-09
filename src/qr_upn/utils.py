@@ -176,10 +176,12 @@ def gen_qr_upn(p_name, p_address, p_post,
                 version=15,
                 mode='byte',
                 error='M', boost_error=False,
-                encoding='iso-8859-2', eci=True).to_pil().resize((230, 230))
+                encoding='iso-8859-2', eci=True).to_pil().resize((240, 240))
             if save_qr: qr.save(check_name(save_qr))
+            # Solves the black background problem
+            mask = Image.new("RGBA", qr.size, "WHITE")
 
-            img.paste(qr, (427, 51))
+            img.paste(qr, (422, 47), mask=mask)
 
             if save_to: img.save(check_name(save_to))
             if show: img.show()
