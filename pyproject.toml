@@ -17,7 +17,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "qr_upn"
-version = "1.0.0"
+version = "1.1.0"
 authors = [
   { name="Peter Horvat", email="peter.horvat85@gmail.com" },
 ]
