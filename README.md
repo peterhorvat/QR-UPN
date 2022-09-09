@@ -3,6 +3,7 @@
 This is a small package that will generate a QR UPN.
 The package also check the field length for each field and the validity of the field format.
 This ensures that the generated QR code will be valid.
+QR code validation checks were done using this [software](https://upn-qr.si/sl/preveriupnqr).
 
 Feel free to address any issues or improvements.
 
@@ -17,11 +18,11 @@ The parameters the function _requires_ are the following:
 - **_p_post_**: Payer postal address and postal number
 - **_price_**: Price the payer has to pay
 - **_date_**: Date when the document is valid (DD.MM.YYYY)
-- **_purpose_code_**: Purpose code which has to be valid (list of codes: https://www.nlb.si/navodila-upn)
+- **_purpose_code_**: Purpose code which has to be valid (list of codes: [LINK](https://www.nlb.si/navodila-upn))
 - **_purpose_**: Purpose of the payment
 - **_pay_date_**: Date until the bill has to be paid (DD.MM.YYYY)
 - **_r_iban_**: Receiver IBAN
-- **_r_reference_**: Receiver reference (validated as mentioned: https://www.nlb.si/navodila-upn)
+- **_r_reference_**: Receiver reference (validated as mentioned: [LINK](https://www.upn-qr.si/uploads/files/NavodilaZaProgramerjeUPNQR.pdf))
 - **_r_name_**: Receiver name
 - **_r_address_**: Receiver address
 - **_r_post_**: Receiver postal address and postal number

@@ -1,55 +1,18 @@
 import os
 import re
-import datetime
 import locale
 import segno
 import string
 
 from PIL import Image, ImageDraw, ImageFont
-from schwifty import IBAN
-from pandas import read_csv
+
+from .formaters import format_iban, format_length, format_code, format_price, format_date
+from .misc import check_name, clean_str, model11_checksum
 from .rules import model_rules
 
 locale.setlocale(locale.LC_ALL, 'sl_SI')
 DIR_PATH = os.path.dirname(os.path.abspath(__file__))
-
-# MISC
-def check_name(name):
-    if not name.endswitht('.png') or not name.endswitht('.jpg') or not name.endswitht('.jpeg'):
-        return f"{name}.png"
-    return name
-
-
-def clean_str(s):
-    return re.sub(r'[\n\t\s]*', '', s)
-
-
-def get_font(style=os.path.join(DIR_PATH, 'courbd.ttf'), size=19):
-    return ImageFont.truetype(style, size)
-
-
-# FORMATERS
-def format_length(field, field_name='Field', min_length=0, max_length=33):
-    if min_length <= len(field) > max_length:
-        raise ValueError(f'{field_name} length must be more than {min_length} characters.')
-    else:
-        return field[:max_length]
-
-
-def format_iban(iban):
-    _iban = IBAN(iban, allow_invalid=True)
-    if _iban.is_valid:
-        return _iban.formatted
-    else:
-        raise ValueError('Provided IBAN number is not valid.')
-
-
-def format_date(datum):
-    try:
-        datetime.datetime.strptime(datum, '%d.%m.%Y')
-        return datum
-    except ValueError:
-        raise ValueError('Incorrect data format, should be DD.MM.YYYY')
+STYLE = os.path.join(DIR_PATH, 'courbd.ttf')
 
 
 def format_reference(ref):
@@ -58,55 +21,6 @@ def format_reference(ref):
         return [ref[:4], ref[4:]]
     else:
         raise Exception('Reference is not in a valid format.')
-
-
-def format_price(price, qr=False):
-    if int(price) <= pow(10, 9) - 1:
-        if isinstance(price, str):
-            if re.compile("^\d+(\.\d{2})?$").match(price) or isinstance(price, (int, float)):
-                _price = float(price)
-                if qr:
-                    return f'{"0" * (10 - len(str(_price).replace(".", "")))}{int(100 * _price)}'
-                return f'***{locale.format_string("%.2f", _price, True)}'
-        else:
-            raise TypeError('Incorrect price format')
-    else:
-        raise ValueError('Number is to large, maximum allowed size is 10^9 - 1')
-
-
-def format_code(code):
-    try:
-        valid_codes = read_csv(os.path.join(DIR_PATH, 'codes.csv')).get('Koda').tolist()
-        format_length(code, field_name='Purpose code', min_length=4, max_length=4)
-        u_code = code.upper()
-        if u_code in valid_codes:
-            return u_code
-        raise ValueError('Purpose code is not valid.')
-    except Exception as e:
-        raise Exception(repr(e))
-
-
-# REFERENCE VALIDATION
-def control_number(column):
-    ponders = [i for i in range(len([*column]) + 1, 1, -1)]
-    result = 11 - (sum([a * b for a, b in zip(map(int, [*column]), ponders)]) % 11)
-    if result == 10:
-        return 0
-    return result
-
-
-def sum_multi(column):
-    ponders = [i for i in range(len([*column]) + 1, 1, -1)]
-    return sum([a * b for a, b in zip(map(int, [*column]), ponders)])
-
-
-# MODEL 11 CHECKSUM CALCULATION
-def model11_checksum(columns):
-    last = int(columns[-1])
-    result = 11 - (sum_multi(columns[:-1]) % 11)
-    if result == 10 or result == 11:
-        result = 0
-    return result == last
 
 
 # SI MODEL CHECKSUM
@@ -196,8 +110,8 @@ def gen_qr_upn(p_name, p_address, p_post,
                price, date, purpose_code, purpose, pay_date,
                save_to=None, save_qr=None, show=False):
     img = Image.open(os.path.join(DIR_PATH, 'upn_sl.png'))
-    kwargsL = {'font': get_font(), 'fill': (0, 0, 0)}
-    kwargsS = {'font': get_font(size=15), 'fill': (0, 0, 0)}
+    kwargsL = {'font': ImageFont.truetype(STYLE, 19), 'fill': (0, 0, 0)}
+    kwargsS = {'font': ImageFont.truetype(STYLE, 15), 'fill': (0, 0, 0)}
 
     try:
         image = ImageDraw.Draw(img)
