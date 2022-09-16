@@ -156,8 +156,8 @@ def gen_qr_upn(p_name, p_address, p_post,
         image.text((110, 230), format_price(price), **kwargsS)
 
         image.text((35, 290), _r_iban, **kwargsS)
-        image.text((35, 330), format_length(r_ref[0], min_length=4, max_length=4), **kwargsS)
-        image.text((80, 330), format_length(r_ref[1], max_length=22), **kwargsS)
+        image.text((35, 330), _r_ref[0], **kwargsS)
+        image.text((80, 330), _r_ref[1], **kwargsS)
 
         image.text((35, 390), _r_name, **kwargsS)
         image.text((35, 410), _r_address, **kwargsS)

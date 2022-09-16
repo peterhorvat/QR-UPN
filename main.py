@@ -1,4 +1,4 @@
-from qr_upn.utils import gen_qr_upn
+from src.qr_upn.utils import gen_qr_upn
 
 data = {
     'p_name': 'JANEZ NOVAK',
